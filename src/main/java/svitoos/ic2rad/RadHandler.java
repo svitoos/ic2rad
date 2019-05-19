@@ -6,6 +6,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import ic2.api.reactor.IReactor;
 import ic2.core.IC2Potion;
 import ic2.core.item.armor.ItemArmorHazmat;
+import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
@@ -126,15 +127,12 @@ public class RadHandler {
     return Config.antiRadArmor.contains(name);
   }
 
+  @SuppressWarnings({"unckecked"})
   static void initAntiRadPills() {
-    //    final List<ItemStack> curativeItems;
-    //    for (String name : Config.antiRadPills) {
-    //      final String[] parts = name.split("@");
-    //      curativeItems.add(
-    //          new ItemStack(
-    //              (Item) Item.itemRegistry.getObject(parts[0]),
-    //              1,
-    //              parts.length > 1 ? Integer.parseInt(parts[1]) : 0));
-    //    }
+    if (Config.antiRadPill) {
+      final List<ItemStack> curativeItems = new ArrayList<>();
+      curativeItems.add(new ItemStack(ic2rad.antiRadPill));
+      Reflection.setInternal(IC2Potion.radiation, "curativeItems", curativeItems);
+    }
   }
 }

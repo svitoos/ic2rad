@@ -25,17 +25,21 @@ public class Config {
   public static int reactorEffectAmplifier;
 
   public static Set<String> antiRadArmor;
-  // public static Set<String> antiRadPills;
+  public static boolean antiRadPill;
 
   static void init(File file) {
     configuration = new Configuration(file, true);
     configuration.load();
 
-    tickFrequency = configuration.getInt("TickFrequency", "general", 20, 1, Integer.MAX_VALUE, "");
-
     // Radioactive Items
 
-    radItems = getNames("Radioactive Items", "List", true, new String[] {"IC2:blockOreUran"}, "");
+    radItems =
+        getNames(
+            "Radioactive Items",
+            "List",
+            true,
+            new String[] {"IC2:blockOreUran", "IC2:blockMetal@3"},
+            "");
     radItemsEffectDuration =
         configuration.getInt(
             "RadEffectDuration", "Radioactive Items", 10, 0, Integer.MAX_VALUE, "");
@@ -45,14 +49,23 @@ public class Config {
 
     // Radioactive Blocks
 
-    radBlocks = getNames("Radioactive Blocks", "List", true, new String[] {"IC2:blockOreUran"}, "");
+    radBlocks =
+        getNames(
+            "Radioactive Blocks",
+            "List",
+            true,
+            new String[] {"IC2:blockOreUran", "IC2:blockMetal@3"},
+            "");
     radBlocksEffectDuration =
         configuration.getInt(
             "RadEffectDuration", "Radioactive Blocks", 10, 0, Integer.MAX_VALUE, "");
     radBlocksEffectAmplifier =
         configuration.getInt(
             "RadEffectAmplifier", "Radioactive Blocks", 90, 0, Integer.MAX_VALUE, "");
-    radBlocksRadius = configuration.get("Radioactive Blocks", "Radius", 1.0, "").getDouble();
+    radBlocksRadius =
+        configuration.get("Radioactive Blocks", "Radius", 1.0, "[default: 1.0]").getDouble();
+    tickFrequency =
+        configuration.getInt("TickFrequency", "Radioactive Blocks", 20, 1, Integer.MAX_VALUE, "");
 
     // Reactor Radiation
 
@@ -67,7 +80,7 @@ public class Config {
     // Radiation Protection
 
     antiRadArmor = getNames("Radiation Protection", "Armor", false, new String[] {}, "");
-    // antiRadPills = getNames("Radiation Protection", "Pills", false, new String[] {}, "");
+    antiRadPill = configuration.getBoolean("AntiRadPill", "Radiation Protection", false, "");
 
     configuration.save();
   }

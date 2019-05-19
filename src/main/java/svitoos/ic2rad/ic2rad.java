@@ -1,6 +1,7 @@
 package svitoos.ic2rad;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -31,6 +32,7 @@ public class ic2rad {
   static Logger logger;
 
   private final RadHandler radHandler = new RadHandler();
+  public static ItemPill antiRadPill;
 
   @Mod.EventHandler
   public void preInit(FMLPreInitializationEvent e) {
@@ -42,6 +44,10 @@ public class ic2rad {
   public void init(FMLInitializationEvent e) {
     MinecraftForge.EVENT_BUS.register(radHandler);
     FMLCommonHandler.instance().bus().register(radHandler);
+    if (Config.antiRadPill) {
+      antiRadPill = new ItemPill();
+      GameRegistry.registerItem(antiRadPill, "antiRadPill");
+    }
     RadHandler.initAntiRadPills();
   }
 
