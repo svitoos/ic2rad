@@ -6,8 +6,6 @@ import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import ic2.api.reactor.IReactor;
 import ic2.core.IC2Potion;
 import ic2.core.item.armor.ItemArmorHazmat;
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,7 +13,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 public class RadHandler {
@@ -28,7 +25,10 @@ public class RadHandler {
     if (!e.player.worldObj.isRemote && e.phase == Phase.START && !hasAntiRadArmor(e.player)) {
       if (hasRadItem(e.player)) {
         addRadiation(e.player, 1);
-      } else if (e.player.worldObj.getTotalWorldTime() % Config.tickFrequency == 0
+      } else if ((e.player.worldObj.getTotalWorldTime()
+                      + Math.abs(e.player.getPersistentID().hashCode()))
+                  % Config.tickFrequency
+              == 0
           && nearRadBlock(e.player)) {
         addRadiation(e.player, Config.tickFrequency);
       }
@@ -105,6 +105,9 @@ public class RadHandler {
 
   private boolean hasAntiRadArmor(EntityLivingBase living) {
     if (!ItemArmorHazmat.hasCompleteHazmat(living)) {
+      if (Config.antiRadArmor.size() == 0) {
+        return false;
+      }
       for (int i = 1; i < 5; ++i) {
         ItemStack stack = living.getEquipmentInSlot(i);
         if (stack == null || !isAntiRadArmor(Item.itemRegistry.getNameForObject(stack.getItem()))) {
