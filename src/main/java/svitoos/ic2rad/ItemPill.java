@@ -1,10 +1,12 @@
 package svitoos.ic2rad;
 
 import ic2.core.IC2;
+import ic2.core.IC2Potion;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
 public class ItemPill extends Item {
@@ -22,7 +24,10 @@ public class ItemPill extends Item {
     }
 
     if (!p_77654_2_.isRemote) {
-      p_77654_3_.curePotionEffects(p_77654_1_);
+      PotionEffect effect = p_77654_3_.getActivePotionEffect(IC2Potion.radiation);
+      if (effect != null) {
+        p_77654_3_.removePotionEffect(IC2Potion.radiation.id);
+      }
     }
 
     return p_77654_1_.stackSize <= 0 ? null : p_77654_1_;

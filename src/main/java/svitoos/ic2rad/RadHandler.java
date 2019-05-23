@@ -126,13 +126,4 @@ public class RadHandler {
   private boolean isAntiRadArmor(String name) {
     return Config.antiRadArmor.contains(name);
   }
-
-  @SuppressWarnings({"unckecked"})
-  static void initAntiRadPills() {
-    if (Config.antiRadPill) {
-      final List<ItemStack> curativeItems = new ArrayList<>();
-      curativeItems.add(new ItemStack(ic2rad.antiRadPill));
-      Reflection.setInternal(IC2Potion.radiation, "curativeItems", curativeItems);
-    }
-  }
 }

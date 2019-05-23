@@ -48,7 +48,6 @@ public class ic2rad {
       antiRadPill = new ItemPill();
       GameRegistry.registerItem(antiRadPill, "antiRadPill");
     }
-    RadHandler.initAntiRadPills();
   }
 
   @Mod.EventHandler
